@@ -1,6 +1,6 @@
 package juego;
 
-import java.util.Random;
+import java.util.Random;import javax.management.ValueExp;
 
 import bloque.Bloque;
 import bloque.categoria.BloqueMineral;
@@ -24,8 +24,8 @@ public class Juego {
 	
 	//Indica el tamano del cub que contendra el mapa que vamos a crear
 	public static final int TAMANO_MUNDO = 10;
-	private static final double MITAD_MUNDO =  (Math.pow(TAMANO_MUNDO, 3)/ 2);
-	public static int CONTADORBLOQUEVACIOS = 0;
+	private static final int MITAD_MUNDO =  (int) (Math.pow(TAMANO_MUNDO, 3) / 2);
+
 
 	
 	/**
@@ -37,33 +37,21 @@ public class Juego {
 		Bloque[][][] mundo3D = new Bloque[TAMANO_MUNDO][TAMANO_MUNDO][TAMANO_MUNDO];
 		
 		//Lo rellenamos de bloques aleatorios de cualquir tipo, incluso tipo Bloque (vacio)
-		for (int i= 0; i <TAMANO_MUNDO / 2; i++) {
-			for (int j= 0; j <TAMANO_MUNDO / 2; j++) {
-				for (int k= 0; k <TAMANO_MUNDO / 2; k++) {
-					mundo3D[i][j][k] = generaBloqueAleatorio(i,j,k);
-				}
-			}
-		}
+		generarMundo(mundo3D);
 		
-		for (int i= TAMANO_MUNDO / 2; i <TAMANO_MUNDO / 2; i++) {
-			for (int j= TAMANO_MUNDO / 2; j <TAMANO_MUNDO / 2; j++) {
-				for (int k= TAMANO_MUNDO / 2; k <TAMANO_MUNDO / 2; k++) {
-					if(CONTADORBLOQUEVACIOS != MITAD_MUNDO) {
-						mundo3D[i][j][k] = new BloqueVacio(i,j,k);
-						CONTADORBLOQUEVACIOS++;
-					}else {
-						mundo3D[i][j][k] = generaBloqueAleatorio(i,j,k);
-					}
-					
-				}
-			}
-		}
-		
-
 
 		//Creamos el jugador
 		Jugador yo = new Jugador("Jorge");
 
+		//Imprimir mundo
+//		for (int i= 0; i <TAMANO_MUNDO; i++) {
+//			for (int j= 0; j <TAMANO_MUNDO; j++) {
+//				for (int k= 0; k <TAMANO_MUNDO; k++) {
+//					System.out.println(mundo3D[i][j][k].toString());
+//				}
+//			}
+//		}
+		
 		//El Jugador recorre el mapa entero recolectando materias primas
 		for (int i= 0; i <TAMANO_MUNDO; i++) {
 			for (int j= 0; j <TAMANO_MUNDO; j++) {
@@ -88,22 +76,50 @@ public class Juego {
 	 * @param z posicion z en la que se encuentra el bloque
 	 * @return el bloque creado
 	 */
+	
+	public static void generarMundo(Bloque mundoarray[][][]) {
+		boolean invalido = true;
+		int x_random,y_random,z_random;
+		Random rd = new Random();
+		for (int i= 0; i <MITAD_MUNDO; i++) {
+			do {
+				x_random = rd.nextInt(TAMANO_MUNDO);
+				y_random = rd.nextInt(TAMANO_MUNDO);
+				z_random = rd.nextInt(2,TAMANO_MUNDO);
+				if(mundoarray[x_random][y_random][z_random] == null) {
+					mundoarray[x_random][y_random][z_random] = new BloqueVacio(x_random,y_random,z_random);
+					invalido = false;
+				}
+			} while (invalido);
+			invalido = true;
+		}
+		
+		for (int i= 0; i <TAMANO_MUNDO; i++) {
+			for (int j= 0; j <TAMANO_MUNDO; j++) {
+				for (int k= 0; k <TAMANO_MUNDO; k++) {
+					if(mundoarray[i][j][k] == null) {
+						mundoarray[i][j][k] = generaBloqueAleatorio(i,j,k);
+					}
+					
+				}
+			}
+		}
+		
+		
+	}
+	
 	public static Bloque generaBloqueAleatorio(int x, int y, int z) {
 
-		Bloque bloque;
+		Bloque bloque = null;
 		Random rd = new Random();
 
 		//Ponemos el numero de materias +2, se sale del rango (default)
 		//para que los casos +1 y +2 que no estan contemplados, generen bloques vacios
 		int tipo;
-		if(z < 2) {
-			tipo = rd.nextInt(Bloque.NUM_MATERIAS);
-		}else {
-			tipo = rd.nextInt(Bloque.NUM_MATERIAS+2);
-		}
-		
 	
-
+		tipo = rd.nextInt(Bloque.NUM_MATERIAS);
+		
+		
 		switch (tipo) {
 		case Bloque.ALBERO: {
 			bloque = new BloqueAlbero(x, y, z);
@@ -129,9 +145,8 @@ public class Juego {
 			bloque = new BloquePlanta(x, y, z);
 			break;
 		}
-		default: {
-			bloque = new BloqueVacio(x, y, z);
-			CONTADORBLOQUEVACIOS++;
+		default:{
+			bloque = new BloquePlanta(x, y, z);
 		}
 
 		}
