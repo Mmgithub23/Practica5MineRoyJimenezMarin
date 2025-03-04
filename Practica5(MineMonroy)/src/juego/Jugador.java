@@ -11,12 +11,19 @@ public class Jugador {
 	
 	//Nombre del jugador
 	String nombre;
+	// Coordenadas del jugador
+	private int x,y,z;
+	// Durabilidad de cada herramienta en orden: Hacha, Pala , Pico
+	private int durabilidadherramients[] = {5,5,5};
 
 	//Lista de materias primas del jugador
 	int[] materiasPrimas = new int[Bloque.NUM_MATERIAS];
 
-	public Jugador(String nombre) {
+	public Jugador(String nombre,int x ,int y ,int z) {
 		this.nombre = nombre;
+		this.x = x;
+		this.y = y;
+		this.z = z;
 	}
 
 	/**

@@ -1,6 +1,9 @@
 package juego;
 
-import java.util.Random;import javax.management.ValueExp;
+import java.util.Random;
+import java.util.Scanner;
+
+import javax.management.ValueExp;
 
 import bloque.Bloque;
 import bloque.categoria.BloqueMineral;
@@ -13,37 +16,96 @@ import bloque.material.BloquePlanta;
 import bloque.material.BloqueVacio;
 
 /**
- * IES Cristobal de Monroy
- * CFGS - Desarrollo de Aplicaciones Multiplataforma
+ * IES Cristobal de Monroy CFGS - Desarrollo de Aplicaciones Multiplataforma
  * Modulo - Programación
+ * 
  * @category Practica V - MineMonroy
  * @author y0rg
  * @version 1.1
  */
 public class Juego {
-	
-	//Indica el tamano del cub que contendra el mapa que vamos a crear
+
+	// Indica el tamano del cub que contendra el mapa que vamos a crear
 	public static final int TAMANO_MUNDO = 10;
-	private static final int MITAD_MUNDO =  (int) (Math.pow(TAMANO_MUNDO, 3) / 2);
+	private static final int MITAD_MUNDO = (int) (Math.pow(TAMANO_MUNDO, 3) / 2);
+	public static final Scanner teclado = new Scanner(System.in);
 
-
-	
 	/**
 	 * Metodo principal, ejecuta el juego
 	 */
 	public static void main(String[] args) {
 
-		//Creamos el mapa del juego
+		// Creamos el mapa del juego
 		Bloque[][][] mundo3D = new Bloque[TAMANO_MUNDO][TAMANO_MUNDO][TAMANO_MUNDO];
-		
-		//Lo rellenamos de bloques aleatorios de cualquir tipo, incluso tipo Bloque (vacio)
+		boolean seguir = true;
+		int opcion;
+		Jugador yo = null;
+		// Lo rellenamos de bloques aleatorios de cualquir tipo, incluso tipo Bloque
+		// (vacio)
 		generarMundo(mundo3D);
-		
 
-		//Creamos el jugador
-		Jugador yo = new Jugador("Jorge");
+		// Creamos el jugador para ello buscamos el primer bloque vacio disponible
+		for (int i = 0; i < TAMANO_MUNDO && seguir; i++) {
+			for (int j = 0; j < TAMANO_MUNDO && seguir; j++) {
+				for (int k = 2; k < TAMANO_MUNDO && seguir; k++) {
+					if (mundo3D[i][j][k] instanceof BloqueVacio) {
+						yo = new Jugador("Jorge", i, j, k);
+						// Imprimos las coordenadas
+						System.out.println("Coordenadas:");
+						System.out.println("X: " + i + " Y: " + j + " Z:" + k);
+						// Finalizamos el bucle
+						seguir = false;
+					}
+				}
+			}
+		}
 
-		//Imprimir mundo
+		// Bucle para el juego reiniciamos la variable seguir para utilizarla aqui
+		seguir = true;
+		do {
+			// Menu del juego
+			System.out.println("Porfavor introduzca que opcion desea hacer");
+			System.out.println("Mover [1]");
+			System.out.println("Crear herramientas [2]");
+			System.out.println("Estado [3]");
+			System.out.println("Finalizar Juego [4]");
+			opcion = teclado.nextInt();
+
+			//Manejo las opciones 
+			switch (opcion) {
+			case 1: {
+				System.out.println("Introduzca a que direccion");
+				System.out.println("Derecha [1]");
+				System.out.println("Izquierda [2]");
+				System.out.println("Adelante [3]");
+				System.out.println("Atras [4]");
+				System.out.println("Arriba [5]");
+				System.out.println("Abajo [6]");
+				opcion = teclado.nextInt();
+				//TODO Introducer metodo mover
+				
+				break;
+			}
+			case 2: {
+				break;
+			}
+
+			case 3: {
+
+				break;
+			}
+			case 4: {
+
+				break;
+			}
+
+			default:
+				System.out.println("Opcion Invalida");
+			}
+
+		} while (seguir);
+
+		// Imprimir mundo
 //		for (int i= 0; i <TAMANO_MUNDO; i++) {
 //			for (int j= 0; j <TAMANO_MUNDO; j++) {
 //				for (int k= 0; k <TAMANO_MUNDO; k++) {
@@ -51,75 +113,70 @@ public class Juego {
 //				}
 //			}
 //		}
-		
-		//El Jugador recorre el mapa entero recolectando materias primas
-		for (int i= 0; i <TAMANO_MUNDO; i++) {
-			for (int j= 0; j <TAMANO_MUNDO; j++) {
-				for (int k= 0; k <TAMANO_MUNDO; k++) {
-					//EN este caso solo utiliza el "Pico"
-					mundo3D[i][j][k].destruir(BloqueMineral.HERRAMIENTA, yo);
-				}
-			}
-		}
-		
-		//Mostramos el resultado de la recolección
+
+//		//El Jugador recorre el mapa entero recolectando materias primas
+//		for (int i= 0; i <TAMANO_MUNDO; i++) {
+//			for (int j= 0; j <TAMANO_MUNDO; j++) {
+//				for (int k= 0; k <TAMANO_MUNDO; k++) {
+//					//EN este caso solo utiliza el "Pico"
+//					mundo3D[i][j][k].destruir(BloqueMineral.HERRAMIENTA, yo);
+//				}
+//			}
+//		}
+
+		// Mostramos el resultado de la recolección
 		System.out.println(yo);
-		
-		
+
 	}
 
-	
 	/**
 	 * Metodo para generar bloques de tipo aleatorio
+	 * 
 	 * @param x posicion x en la que se encuentra el bloque
 	 * @param y posicion y en la que se encuentra el bloque
 	 * @param z posicion z en la que se encuentra el bloque
 	 * @return el bloque creado
 	 */
-	
+
 	public static void generarMundo(Bloque mundoarray[][][]) {
 		boolean invalido = true;
-		int x_random,y_random,z_random;
+		int x_random, y_random, z_random;
 		Random rd = new Random();
-		for (int i= 0; i <MITAD_MUNDO; i++) {
+		for (int i = 0; i < MITAD_MUNDO; i++) {
 			do {
 				x_random = rd.nextInt(TAMANO_MUNDO);
 				y_random = rd.nextInt(TAMANO_MUNDO);
-				z_random = rd.nextInt(2,TAMANO_MUNDO);
-				if(mundoarray[x_random][y_random][z_random] == null) {
-					mundoarray[x_random][y_random][z_random] = new BloqueVacio(x_random,y_random,z_random);
+				z_random = rd.nextInt(2, TAMANO_MUNDO);
+				if (mundoarray[x_random][y_random][z_random] == null) {
+					mundoarray[x_random][y_random][z_random] = new BloqueVacio(x_random, y_random, z_random);
 					invalido = false;
 				}
 			} while (invalido);
 			invalido = true;
 		}
-		
-		for (int i= 0; i <TAMANO_MUNDO; i++) {
-			for (int j= 0; j <TAMANO_MUNDO; j++) {
-				for (int k= 0; k <TAMANO_MUNDO; k++) {
-					if(mundoarray[i][j][k] == null) {
-						mundoarray[i][j][k] = generaBloqueAleatorio(i,j,k);
+
+		for (int i = 0; i < TAMANO_MUNDO; i++) {
+			for (int j = 0; j < TAMANO_MUNDO; j++) {
+				for (int k = 0; k < TAMANO_MUNDO; k++) {
+					if (mundoarray[i][j][k] == null) {
+						mundoarray[i][j][k] = generaBloqueAleatorio(i, j, k);
 					}
-					
+
 				}
 			}
 		}
-		
-		
+
 	}
-	
+
 	public static Bloque generaBloqueAleatorio(int x, int y, int z) {
 
 		Bloque bloque = null;
 		Random rd = new Random();
 
-		//Ponemos el numero de materias +2, se sale del rango (default)
-		//para que los casos +1 y +2 que no estan contemplados, generen bloques vacios
 		int tipo;
-	
+
 		tipo = rd.nextInt(Bloque.NUM_MATERIAS);
-		
-		
+
 		switch (tipo) {
 		case Bloque.ALBERO: {
 			bloque = new BloqueAlbero(x, y, z);
@@ -144,9 +201,6 @@ public class Juego {
 		case Bloque.PLANTA: {
 			bloque = new BloquePlanta(x, y, z);
 			break;
-		}
-		default:{
-			bloque = new BloquePlanta(x, y, z);
 		}
 
 		}
