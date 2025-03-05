@@ -34,7 +34,7 @@ public abstract class Bloque {
 		this.z = -1;
 	}
 	
-	public abstract void destruir(String herramienta, Jugador jugador);
+	public abstract void destruir(HERRAMIENTAS herramienta, Jugador jugador);
 
 	@Override
 	public String toString() {

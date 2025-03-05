@@ -1,6 +1,7 @@
 package bloque.material;
 
 import bloque.Bloque;
+import bloque.HERRAMIENTAS;
 import juego.Jugador;
 
 public class BloqueVacio extends Bloque {
@@ -9,7 +10,7 @@ public class BloqueVacio extends Bloque {
 		super(x, y, z);
 	}
 
-	public void destruir(String herramienta, Jugador jugador) {
+	public void destruir(HERRAMIENTAS herramienta, Jugador jugador) {
 		super.destruir();
 	}
 

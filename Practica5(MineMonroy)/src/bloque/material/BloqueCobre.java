@@ -1,6 +1,7 @@
 package bloque.material;
 
 import bloque.Bloque;
+import bloque.HERRAMIENTAS;
 import bloque.categoria.BloqueMineral;
 import juego.Jugador;
 
@@ -11,7 +12,7 @@ public class BloqueCobre extends BloqueMineral {
 		this.tipo = Bloque.COBRE;
 	}
 
-	public void destruir(String herramienta, Jugador jugador) {
+	public void destruir(HERRAMIENTAS herramienta, Jugador jugador) {
 		if (herramienta.equals(BloqueMineral.HERRAMIENTA)) {
 			jugador.sumaMateria(tipo);
 		}
