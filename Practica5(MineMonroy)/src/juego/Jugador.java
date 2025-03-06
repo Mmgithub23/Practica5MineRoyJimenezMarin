@@ -1,6 +1,8 @@
 package juego;
 
 import bloque.Bloque;
+import bloque.HERRAMIENTAS;
+import bloque.material.BloqueVacio;
 
 /**
  * Clase que representa el jugador del MineMonroy
@@ -17,10 +19,10 @@ public class Jugador {
 	String nombre;
 	// Array de coordenadas del jugador en orden: X,Y,Z
 	private int coordenadas[] = new int[3];
-	//Posicion de la X , Y , Z en el array
+	// Posicion de la X , Y , Z en el array
 	public static final int X = 0, Y = 1, Z = 2;
 	// Durabilidad de cada herramienta en orden: Hacha, Pala , Pico
-	private  int durabilidadherramients[] = { 5, 5, 5 };
+	private int durabilidadherramienta[] = { 5, 5, 5 };
 
 	// Lista de materias primas del jugador
 	int[] materiasPrimas = new int[Bloque.NUM_MATERIAS];
@@ -83,30 +85,101 @@ public class Jugador {
 	// Getters de las coordenadas
 
 	public int getX() {
-		return coordenadas[0];
+		return coordenadas[X];
 	}
 
 	public int getY() {
-		return coordenadas[1];
+		return coordenadas[Y];
 	}
 
 	public int getZ() {
-		return coordenadas[2];
+		return coordenadas[Z];
 	}
 
 	/**
-	 * Metodo para mover al jugador Este metodo tiene 6 direcciones siendo
-	 * derecha,izquierda,arriba,abajo,adelante,atras Dependiendo de la direccion se
-	 * movera acorde a un mundo tridimensional Una vez que el jugador se mueva hara
-	 * una accion de destruir bloque En caso de ser una direccion invalidad lanzara
-	 * una execpcion
+	 * Metodo para mover al jugador Este metodo tomo como valores de entrada el
+	 * bloque el cual va a interactuar,un int que le dice que coordenada es la
+	 * afecta y la nueva direccion que tomara esta coordenada.
 	 */
 
-	public void mover(Bloque bloquedestruir,int switchdireccion,int nuevadireccion) {
+	public void mover(Bloque bloquedestruir, int switchdireccion, int nuevadireccion) {
 
-		//TODO Hacer logica direccion
-		
+		System.out.println("Eliga la herramienta");
+		System.out.println("Hacha [1]");
+		System.out.println("Pala [2]");
+		System.out.println("Pico [3]");
+		switch (Juego.teclado.nextInt()) {
+		case 1: {
+			if (durabilidadherramienta[0] > 0) {
+				if (bloquedestruir.destruir(HERRAMIENTAS.HACHA, this)) {
+					cambiarcordenada(switchdireccion, nuevadireccion);
+				}
+				//Si el bloque no es un bloque vacio no restara la durabilidad 
+				if (!(bloquedestruir instanceof BloqueVacio)) {
+					durabilidadherramienta[0]--;
+				}
+
+			} else {
+				throw new IllegalArgumentException("No tienes durabilidad suficiente con esta herramienta");
+			}
+
+			break;
+		}
+		case 2: {
+			if (durabilidadherramienta[1] > 0) {
+				if (bloquedestruir.destruir(HERRAMIENTAS.PALA, this)) {
+					cambiarcordenada(switchdireccion, nuevadireccion);
+				}
+				//Si el bloque no es un bloque vacio no restara la durabilidad 
+				if (!(bloquedestruir instanceof BloqueVacio)) {
+					durabilidadherramienta[0]--;
+				}
+			} else {
+				throw new IllegalArgumentException("No tienes durabilidad suficiente con esta herramienta");
+			}
+
+			break;
+		}
+		case 3: {
+			if (durabilidadherramienta[2] > 0) {
+				if (bloquedestruir.destruir(HERRAMIENTAS.PICO, this)) {
+					cambiarcordenada(switchdireccion, nuevadireccion);
+				}
+				//Si el bloque no es un bloque vacio no restara la durabilidad 
+				if (!(bloquedestruir instanceof BloqueVacio)) {
+					durabilidadherramienta[0]--;
+				}
+			} else {
+				throw new IllegalArgumentException("No tienes durabilidad suficiente con esta herramienta");
+			}
+
+			break;
+		}
+
+		default:
+			throw new IllegalArgumentException("Opcion Invalida");
+		}
 
 	}
 
+	// Este metodo maneja el switch para cambiar la coordenada. Se mueve a un metodo
+	// para una mejor lectura de codigo
+	private void cambiarcordenada(int switchdireccion, int nuevadireccion) {
+		switch (switchdireccion) {
+		case X: {
+			coordenadas[X] = nuevadireccion;
+			break;
+		}
+		case Y: {
+			coordenadas[Y] = nuevadireccion;
+			break;
+		}
+		case Z: {
+			coordenadas[Z] = nuevadireccion;
+			break;
+		}
+
+		}
+
+	}
 }

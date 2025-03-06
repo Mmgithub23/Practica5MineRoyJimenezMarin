@@ -6,6 +6,7 @@ import java.util.Scanner;
 import javax.management.ValueExp;
 
 import bloque.Bloque;
+import bloque.HERRAMIENTAS;
 import bloque.categoria.BloqueMineral;
 import bloque.material.BloqueAlbero;
 import bloque.material.BloqueArbol;
@@ -83,6 +84,7 @@ public class Juego {
 				System.out.println("Arriba [5]");
 				System.out.println("Abajo [6]");
 				opcion = teclado.nextInt();
+				
 				// Switch para saber cual seria la coordenada del jugador acorde al movimiento y
 				// el bloque el cual accede.
 				switch (opcion) {

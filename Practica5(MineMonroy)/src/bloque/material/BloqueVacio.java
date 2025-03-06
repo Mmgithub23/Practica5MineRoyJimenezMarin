@@ -10,8 +10,9 @@ public class BloqueVacio extends Bloque {
 		super(x, y, z);
 	}
 
-	public void destruir(HERRAMIENTAS herramienta, Jugador jugador) {
+	public boolean destruir(HERRAMIENTAS herramienta, Jugador jugador) {
 		super.destruir();
+		return true;
 	}
 
 }

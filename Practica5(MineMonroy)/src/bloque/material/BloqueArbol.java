@@ -12,10 +12,14 @@ public class BloqueArbol extends BloqueVegetal {
 		this.tipo = Bloque.ARBOL;
 	}
 
-	public void destruir(HERRAMIENTAS herramienta, Jugador jugador) {
+	public boolean destruir(HERRAMIENTAS herramienta, Jugador jugador) {
+		boolean resultado = false;
+		
 		if (herramienta.equals(BloqueVegetal.HERRAMIENTA)) {
 			jugador.sumaMateria(tipo);
+			resultado = true;
 		}
 		super.destruir();
+		return resultado;
 	}
 }

@@ -12,10 +12,13 @@ public class BloqueCobre extends BloqueMineral {
 		this.tipo = Bloque.COBRE;
 	}
 
-	public void destruir(HERRAMIENTAS herramienta, Jugador jugador) {
+	public boolean destruir(HERRAMIENTAS herramienta, Jugador jugador) {
+		boolean resultado = false;
 		if (herramienta.equals(BloqueMineral.HERRAMIENTA)) {
 			jugador.sumaMateria(tipo);
+			resultado = true;
 		}
 		super.destruir();
+		return resultado;
 	}
 }

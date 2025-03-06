@@ -12,10 +12,13 @@ public class BloqueArcilla extends BloqueTierra {
 		this.tipo = Bloque.ARCILLA;
 	}
 
-	public void destruir(HERRAMIENTAS herramienta, Jugador jugador) {
+	public boolean destruir(HERRAMIENTAS herramienta, Jugador jugador) {
+		boolean resultado = false;
 		if (herramienta.equals(BloqueTierra.HERRAMIENTA)) {
 			jugador.sumaMateria(tipo);
+			resultado = true;
 		}
 		super.destruir();
+		return resultado;
 	}
 }
