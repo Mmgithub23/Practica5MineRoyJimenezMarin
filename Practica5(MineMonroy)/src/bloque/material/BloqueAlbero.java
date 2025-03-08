@@ -6,7 +6,6 @@ import bloque.categoria.BloqueTierra;
 import juego.Jugador;
 
 public class BloqueAlbero extends BloqueTierra {
-
 	public BloqueAlbero(int x, int y, int z) {
 		super(x, y, z);
 		this.tipo = Bloque.ALBERO;
@@ -14,12 +13,15 @@ public class BloqueAlbero extends BloqueTierra {
 
 	public boolean destruir(HERRAMIENTAS herramienta, Jugador jugador) {
 		boolean resultado = false;
-		
-		if (herramienta.equals(BloqueTierra.HERRAMIENTA)) {
-			jugador.sumaMateria(tipo);
+		if (super.getX() != -1) {
+			if (herramienta.equals(BloqueTierra.HERRAMIENTA)) {
+				jugador.sumaMateria(tipo);
+				resultado = true;
+			}
+			super.destruir();
+		} else {
 			resultado = true;
 		}
-		super.destruir();
 		return resultado;
 	}
 }

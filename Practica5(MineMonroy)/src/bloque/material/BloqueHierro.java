@@ -14,11 +14,16 @@ public class BloqueHierro extends BloqueMineral {
 
 	public boolean destruir(HERRAMIENTAS herramienta, Jugador jugador) {
 		boolean resultado = false;
-		if (herramienta.equals(BloqueMineral.HERRAMIENTA)) {
-			jugador.sumaMateria(tipo);
+		if (super.getX() != -1) {
+			if (herramienta.equals(BloqueMineral.HERRAMIENTA)) {
+					jugador.sumaMateria(tipo);
+					resultado = true;
+				}
+				super.destruir();
+		} else {
 			resultado = true;
 		}
-		super.destruir();
+	
 		return resultado;
 	}
 }

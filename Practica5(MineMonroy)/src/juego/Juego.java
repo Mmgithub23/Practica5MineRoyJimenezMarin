@@ -163,11 +163,12 @@ public class Juego {
 				break;
 			}
 			case 2: {
+				yo.crearherramientas();
 				break;
 			}
 
 			case 3: {
-
+				System.out.println(yo.toString());
 				break;
 			}
 			case 4: {

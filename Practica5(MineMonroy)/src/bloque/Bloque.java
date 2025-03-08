@@ -40,7 +40,11 @@ public abstract class Bloque {
 	public String toString() {
 		return "Coordenadas x=" + x + ", y=" + y + ", z=" + z + ", tipo=" + tipo + "]";
 	}
-	
+
+	protected int getX() {
+		return x;
+	}
+
 	
 
 }

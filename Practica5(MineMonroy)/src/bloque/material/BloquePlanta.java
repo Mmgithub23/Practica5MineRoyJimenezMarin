@@ -14,10 +14,14 @@ public class BloquePlanta extends BloqueVegetal {
 
 	public boolean destruir(HERRAMIENTAS herramienta, Jugador jugador) {
 		boolean resultado = false;
-		if (herramienta.equals(BloqueVegetal.HERRAMIENTA)) {
-			jugador.sumaMateria(tipo);
+		if (super.getX() != -1) {
+			if (herramienta.equals(BloqueVegetal.HERRAMIENTA)) {
+				jugador.sumaMateria(tipo);
+			}
+			super.destruir();
+		} else {
+			resultado = true;
 		}
-		super.destruir();
 		return resultado;
 	}
 }

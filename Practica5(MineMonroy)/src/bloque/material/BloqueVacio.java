@@ -11,7 +11,6 @@ public class BloqueVacio extends Bloque {
 	}
 
 	public boolean destruir(HERRAMIENTAS herramienta, Jugador jugador) {
-		super.destruir();
 		return true;
 	}
 

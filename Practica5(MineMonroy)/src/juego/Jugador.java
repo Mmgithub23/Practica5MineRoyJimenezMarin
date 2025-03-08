@@ -29,19 +29,26 @@ public class Jugador {
 
 	public Jugador(String nombre, int x, int y, int z) {
 		this.nombre = nombre;
-		coordenadas[0] = x;
-		coordenadas[1] = y;
-		coordenadas[2] = z;
+		coordenadas[X] = x;
+		coordenadas[Y] = y;
+		coordenadas[Z] = z;
+		for (int i = 0; i < Bloque.NUM_MATERIAS; i++) {
+			materiasPrimas[i] = 0;
+		}
 	}
 
 	/**
 	 * No hace falta explicarlo... o si?
 	 */
 	public String toString() {
-		return this.nombre + " - Materias primas recolectadas\n" + "Plantas: " + materiasPrimas[Bloque.PLANTA]
-				+ "\nArboles: " + materiasPrimas[Bloque.ARBOL] + "\nArcilla: " + materiasPrimas[Bloque.ARCILLA]
-				+ "\nAlbero: " + materiasPrimas[Bloque.ALBERO] + "\nHierro: " + materiasPrimas[Bloque.HIERRO]
-				+ "\nCobre: " + materiasPrimas[Bloque.COBRE];
+		return "Nombre: " + this.nombre + " Coordenadas: X: " + this.coordenadas[X] + " Y: " + this.coordenadas[Y]
+				+ " Z: " + this.coordenadas[Z] + " Durabilidad herramientas: Hacha: "
+				+ this.durabilidadherramienta[HERRAMIENTAS.HACHA.ordinal()] + " Pala: "
+				+ this.durabilidadherramienta[HERRAMIENTAS.PALA.ordinal()] + " Pico: "
+				+ this.durabilidadherramienta[HERRAMIENTAS.PICO.ordinal()] + " - Materias primas recolectadas\n"
+				+ "Plantas: " + materiasPrimas[Bloque.PLANTA] + "\nArboles: " + materiasPrimas[Bloque.ARBOL]
+				+ "\nArcilla: " + materiasPrimas[Bloque.ARCILLA] + "\nAlbero: " + materiasPrimas[Bloque.ALBERO]
+				+ "\nHierro: " + materiasPrimas[Bloque.HIERRO] + "\nCobre: " + materiasPrimas[Bloque.COBRE];
 	}
 
 	/**
@@ -110,13 +117,13 @@ public class Jugador {
 		System.out.println("Pico [3]");
 		switch (Juego.teclado.nextInt()) {
 		case 1: {
-			if (durabilidadherramienta[0] > 0) {
+			if (durabilidadherramienta[HERRAMIENTAS.HACHA.ordinal()] > 0) {
 				if (bloquedestruir.destruir(HERRAMIENTAS.HACHA, this)) {
 					cambiarcordenada(switchdireccion, nuevadireccion);
 				}
-				//Si el bloque no es un bloque vacio no restara la durabilidad 
+				// Si el bloque no es un bloque vacio restara la durabilidad
 				if (!(bloquedestruir instanceof BloqueVacio)) {
-					durabilidadherramienta[0]--;
+					durabilidadherramienta[HERRAMIENTAS.HACHA.ordinal()]--;
 				}
 
 			} else {
@@ -126,13 +133,13 @@ public class Jugador {
 			break;
 		}
 		case 2: {
-			if (durabilidadherramienta[1] > 0) {
+			if (durabilidadherramienta[HERRAMIENTAS.PALA.ordinal()] > 0) {
 				if (bloquedestruir.destruir(HERRAMIENTAS.PALA, this)) {
 					cambiarcordenada(switchdireccion, nuevadireccion);
 				}
-				//Si el bloque no es un bloque vacio no restara la durabilidad 
+				// Si el bloque no es un bloque vacio restara la durabilidad
 				if (!(bloquedestruir instanceof BloqueVacio)) {
-					durabilidadherramienta[0]--;
+					durabilidadherramienta[HERRAMIENTAS.PALA.ordinal()]--;
 				}
 			} else {
 				throw new IllegalArgumentException("No tienes durabilidad suficiente con esta herramienta");
@@ -141,13 +148,13 @@ public class Jugador {
 			break;
 		}
 		case 3: {
-			if (durabilidadherramienta[2] > 0) {
+			if (durabilidadherramienta[HERRAMIENTAS.PICO.ordinal()] > 0) {
 				if (bloquedestruir.destruir(HERRAMIENTAS.PICO, this)) {
 					cambiarcordenada(switchdireccion, nuevadireccion);
 				}
-				//Si el bloque no es un bloque vacio no restara la durabilidad 
+				// Si el bloque no es un bloque vacio restara la durabilidad
 				if (!(bloquedestruir instanceof BloqueVacio)) {
-					durabilidadherramienta[0]--;
+					durabilidadherramienta[HERRAMIENTAS.PICO.ordinal()]--;
 				}
 			} else {
 				throw new IllegalArgumentException("No tienes durabilidad suficiente con esta herramienta");
@@ -182,4 +189,44 @@ public class Jugador {
 		}
 
 	}
+
+	// Metdo crear herramientas comprueba si se tiene las materias suficientes. La
+	// creacion de herramientas es: Hacha,Pala,Pico
+
+	public void crearherramientas() {
+		// Comprobacion si tiene los suficientes materiales para una hacha
+		if (materiasPrimas[Bloque.HIERRO] > 0 && materiasPrimas[Bloque.ARBOL] > 0) {
+			// Reinicia la durabilidad de la hacha y resta los materiales correspondientes
+			durabilidadherramienta[HERRAMIENTAS.HACHA.ordinal()] = 5;
+			materiasPrimas[Bloque.HIERRO]--;
+			materiasPrimas[Bloque.ARBOL]--;
+			System.out.println("Hacha construida");
+			// Comprobacion si tiene los suficientes materiales para una pala
+			if (materiasPrimas[Bloque.HIERRO] > 1 && materiasPrimas[Bloque.ARBOL] > 1) {
+				durabilidadherramienta[HERRAMIENTAS.PALA.ordinal()] = 5;
+				materiasPrimas[Bloque.HIERRO] -= 2;
+				materiasPrimas[Bloque.ARBOL] -= 2;
+				System.out.println("Pala construida");
+			} else {
+				System.out.println("No se ha podido crear una pala");
+			}
+
+			// Comprobacion si tiene los suficientes materiales para un pico
+			if (materiasPrimas[Bloque.HIERRO] > 0 && materiasPrimas[Bloque.COBRE] > 0
+					&& materiasPrimas[Bloque.ARBOL] > 1) {
+				durabilidadherramienta[HERRAMIENTAS.PICO.ordinal()] = 5;
+				materiasPrimas[Bloque.HIERRO] -= 2;
+				materiasPrimas[Bloque.ARBOL] -= 2;
+				System.out.println("Pala construida");
+			} else {
+				System.out.println("No se ha podido crear un pico");
+			}
+
+		} // Si no tiene los materiales suficientes para una hacha tampoco va a poder
+			// hacer otros materiales por ende nos saltamos las comprobaciones
+		else {
+			System.out.println("Falta de materias basicas");
+		}
+	}
+
 }
