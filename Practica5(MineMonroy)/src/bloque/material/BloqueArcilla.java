@@ -18,6 +18,7 @@ public class BloqueArcilla extends BloqueTierra {
 			if (herramienta.equals(BloqueTierra.HERRAMIENTA)) {
 				jugador.sumaMateria(tipo);
 				resultado = true;
+				System.out.println("Bloque de arcilla recolectado con exito");
 			}
 			super.destruir();
 		} else {

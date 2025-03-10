@@ -18,6 +18,7 @@ public class BloqueCobre extends BloqueMineral {
 			if (herramienta.equals(BloqueMineral.HERRAMIENTA)) {
 				jugador.sumaMateria(tipo);
 				resultado = true;
+				System.out.println("Bloque de cobre recolectado con exito");
 			}
 			super.destruir();
 		}else {

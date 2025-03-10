@@ -18,6 +18,7 @@ public class BloqueHierro extends BloqueMineral {
 			if (herramienta.equals(BloqueMineral.HERRAMIENTA)) {
 					jugador.sumaMateria(tipo);
 					resultado = true;
+					System.out.println("Bloque de hierro recolectado con exito");
 				}
 				super.destruir();
 		} else {

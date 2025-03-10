@@ -115,15 +115,19 @@ public class Jugador {
 		System.out.println("Hacha [1]");
 		System.out.println("Pala [2]");
 		System.out.println("Pico [3]");
+
 		switch (Juego.teclado.nextInt()) {
 		case 1: {
 			if (durabilidadherramienta[HERRAMIENTAS.HACHA.ordinal()] > 0) {
 				if (bloquedestruir.destruir(HERRAMIENTAS.HACHA, this)) {
 					cambiarcordenada(switchdireccion, nuevadireccion);
-				}
-				// Si el bloque no es un bloque vacio restara la durabilidad
-				if (!(bloquedestruir instanceof BloqueVacio)) {
-					durabilidadherramienta[HERRAMIENTAS.HACHA.ordinal()]--;
+					System.out.println("Se ha movido con exito ");
+					// Si el bloque no es un bloque vacio restara la durabilidad
+					if (!(bloquedestruir instanceof BloqueVacio)) {
+						durabilidadherramienta[HERRAMIENTAS.HACHA.ordinal()]--;
+					}
+				} else {
+					System.out.println("No se ha podido recolectar el material y no te has podido mover");
 				}
 
 			} else {
@@ -136,11 +140,15 @@ public class Jugador {
 			if (durabilidadherramienta[HERRAMIENTAS.PALA.ordinal()] > 0) {
 				if (bloquedestruir.destruir(HERRAMIENTAS.PALA, this)) {
 					cambiarcordenada(switchdireccion, nuevadireccion);
+					System.out.println("Se ha movido con exito ");
+					// Si el bloque no es un bloque vacio restara la durabilidad
+					if (!(bloquedestruir instanceof BloqueVacio)) {
+						durabilidadherramienta[HERRAMIENTAS.PALA.ordinal()]--;
+					}
+				} else {
+					System.out.println("No se ha podido recolectar el material y no te has podido mover");
 				}
-				// Si el bloque no es un bloque vacio restara la durabilidad
-				if (!(bloquedestruir instanceof BloqueVacio)) {
-					durabilidadherramienta[HERRAMIENTAS.PALA.ordinal()]--;
-				}
+
 			} else {
 				throw new IllegalArgumentException("No tienes durabilidad suficiente con esta herramienta");
 			}
@@ -151,11 +159,15 @@ public class Jugador {
 			if (durabilidadherramienta[HERRAMIENTAS.PICO.ordinal()] > 0) {
 				if (bloquedestruir.destruir(HERRAMIENTAS.PICO, this)) {
 					cambiarcordenada(switchdireccion, nuevadireccion);
+					System.out.println("Se ha movido con exito ");
+					// Si el bloque no es un bloque vacio restara la durabilidad
+					if (!(bloquedestruir instanceof BloqueVacio)) {
+						durabilidadherramienta[HERRAMIENTAS.PICO.ordinal()]--;
+					}
+				} else {
+					System.out.println("No se ha podido recolectar el material y no te has podido mover");
 				}
-				// Si el bloque no es un bloque vacio restara la durabilidad
-				if (!(bloquedestruir instanceof BloqueVacio)) {
-					durabilidadherramienta[HERRAMIENTAS.PICO.ordinal()]--;
-				}
+
 			} else {
 				throw new IllegalArgumentException("No tienes durabilidad suficiente con esta herramienta");
 			}
@@ -227,6 +239,20 @@ public class Jugador {
 		else {
 			System.out.println("Falta de materias basicas");
 		}
+	}
+
+	// Recorre todo los tipos de bloque si algun tipo no tiene un minimo de un
+	// material se
+	// entiende que no ha ganado todavia
+	public boolean victoria() {
+		boolean resultado = true;
+		for (int i = 0; i < Bloque.NUM_MATERIAS && resultado; i++) {
+			if (materiasPrimas[i] < 1) {
+				resultado = false;
+			}
+		}
+
+		return resultado;
 	}
 
 }

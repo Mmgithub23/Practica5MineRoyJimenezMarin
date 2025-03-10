@@ -17,6 +17,8 @@ public class BloquePlanta extends BloqueVegetal {
 		if (super.getX() != -1) {
 			if (herramienta.equals(BloqueVegetal.HERRAMIENTA)) {
 				jugador.sumaMateria(tipo);
+				resultado = true;
+				System.out.println("Bloque de planta recolectado con exito");
 			}
 			super.destruir();
 		} else {

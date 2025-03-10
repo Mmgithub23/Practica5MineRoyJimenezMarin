@@ -17,6 +17,7 @@ public class BloqueAlbero extends BloqueTierra {
 			if (herramienta.equals(BloqueTierra.HERRAMIENTA)) {
 				jugador.sumaMateria(tipo);
 				resultado = true;
+				System.out.println("Bloque de albero recolectado con exito");
 			}
 			super.destruir();
 		} else {

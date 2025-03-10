@@ -38,8 +38,8 @@ public class Juego {
 
 		// Creamos el mapa del juego
 		Bloque[][][] mundo3D = new Bloque[TAMANO_MUNDO][TAMANO_MUNDO][TAMANO_MUNDO];
-		boolean seguir = true;
 		int opcion;
+		boolean seguir = true;
 		Jugador yo = null;
 		// Lo rellenamos de bloques aleatorios de cualquir tipo, incluso tipo Bloque
 		// (vacio)
@@ -61,135 +61,132 @@ public class Juego {
 			}
 		}
 
-		// Bucle para el juego reiniciamos la variable seguir para utilizarla aqui
-		seguir = true;
+		// Bucle para el juego
 		do {
 			// Menu del juego
 			System.out.println("Porfavor introduzca que opcion desea hacer");
 			System.out.println("Mover [1]");
 			System.out.println("Crear herramientas [2]");
 			System.out.println("Estado [3]");
-			System.out.println("Finalizar Juego [4]");
 			opcion = teclado.nextInt();
 
-			// Manejo las opciones
-			switch (opcion) {
-			case 1: {
-				int posicioncalculada;
-				System.out.println("Introduzca a que direccion");
-				System.out.println("Derecha [1]");
-				System.out.println("Izquierda [2]");
-				System.out.println("Adelante [3]");
-				System.out.println("Atras [4]");
-				System.out.println("Arriba [5]");
-				System.out.println("Abajo [6]");
-				opcion = teclado.nextInt();
-				
-				// Switch para saber cual seria la coordenada del jugador acorde al movimiento y
-				// el bloque el cual accede.
+			// Manejo de las opciones. Añadimos un try catch para las excepciones
+
+			try {
 				switch (opcion) {
-				// Derecha comprobando si sobrepasa los limites del mapa
 				case 1: {
-					if (yo.getY() + 1 == Juego.TAMANO_MUNDO) {
-						posicioncalculada = 0;
-						yo.mover(mundo3D[yo.getX()][posicioncalculada][yo.getZ()], Jugador.Y, posicioncalculada);
-					} else {
-						posicioncalculada = yo.getY() + 1;
-						yo.mover(mundo3D[yo.getX()][posicioncalculada][yo.getZ()], Jugador.Y, posicioncalculada);
+					int posicioncalculada;
+					System.out.println("Introduzca a que direccion");
+					System.out.println("Derecha [1]");
+					System.out.println("Izquierda [2]");
+					System.out.println("Adelante [3]");
+					System.out.println("Atras [4]");
+					System.out.println("Arriba [5]");
+					System.out.println("Abajo [6]");
+					opcion = teclado.nextInt();
+
+					// Switch para saber cual seria la coordenada del jugador acorde al movimiento y
+					// el bloque el cual accede.
+
+					switch (opcion) {
+					// Derecha comprobando si sobrepasa los limites del mapa
+					case 1: {
+						if (yo.getY() + 1 == Juego.TAMANO_MUNDO) {
+							posicioncalculada = 0;
+							yo.mover(mundo3D[yo.getX()][posicioncalculada][yo.getZ()], Jugador.Y, posicioncalculada);
+						} else {
+							posicioncalculada = yo.getY() + 1;
+							yo.mover(mundo3D[yo.getX()][posicioncalculada][yo.getZ()], Jugador.Y, posicioncalculada);
+						}
+						break;
 					}
+					// Izquierda comprobando si sobrepasa los limites del mapa
+					case 2: {
+						if (yo.getY() - 1 < 0) {
+							posicioncalculada = TAMANO_MUNDO - 1;
+							yo.mover(mundo3D[yo.getX()][posicioncalculada][yo.getZ()], Jugador.Y, posicioncalculada);
+						} else {
+							posicioncalculada = yo.getY() - 1;
+							yo.mover(mundo3D[yo.getX()][posicioncalculada][yo.getZ()], Jugador.Y, posicioncalculada);
+						}
+						break;
+					}
+					// Adelante comprobando si sobrepasa los limites del mapa
+					case 3: {
+						if (yo.getX() + 1 == Juego.TAMANO_MUNDO) {
+							posicioncalculada = 0;
+							yo.mover(mundo3D[posicioncalculada][yo.getY()][yo.getZ()], Jugador.X, posicioncalculada);
+						} else {
+							posicioncalculada = yo.getX() + 1;
+							yo.mover(mundo3D[posicioncalculada][yo.getY()][yo.getZ()], Jugador.X, posicioncalculada);
+						}
+						break;
+					}
+					// Atras comprobando si sobrepasa los limites del mapa
+					case 4: {
+						if (yo.getX() - 1 < 0) {
+							posicioncalculada = TAMANO_MUNDO - 1;
+							yo.mover(mundo3D[posicioncalculada][yo.getY()][yo.getZ()], Jugador.X, posicioncalculada);
+
+						} else {
+							posicioncalculada = yo.getX() - 1;
+							yo.mover(mundo3D[posicioncalculada][yo.getY()][yo.getZ()], Jugador.X, posicioncalculada);
+						}
+						break;
+					}
+					// Arriba comprobando si sobrepasa los limites del mapa
+					case 5: {
+						if (yo.getZ() + 1 == Juego.TAMANO_MUNDO) {
+
+							posicioncalculada = 0;
+							yo.mover(mundo3D[yo.getX()][yo.getY()][posicioncalculada], Jugador.Z, posicioncalculada);
+						} else {
+							posicioncalculada = yo.getZ() + 1;
+							yo.mover(mundo3D[yo.getX()][yo.getY()][posicioncalculada], Jugador.Z, posicioncalculada);
+						}
+						break;
+					}
+					// Abajo comprobando si sobrepasa los limites del mapa
+					case 6: {
+						if (yo.getZ() - 1 < 0) {
+							posicioncalculada = TAMANO_MUNDO - 1;
+							yo.mover(mundo3D[yo.getX()][yo.getY()][posicioncalculada], Jugador.Z, posicioncalculada);
+						} else {
+							posicioncalculada = yo.getZ() - 1;
+							yo.mover(mundo3D[yo.getX()][yo.getY()][posicioncalculada], Jugador.Z, posicioncalculada);
+						}
+						break;
+					}
+					default:
+						throw new IllegalArgumentException("Direccion invalida: ");
+					}
+
 					break;
 				}
-				// Izquierda comprobando si sobrepasa los limites del mapa
 				case 2: {
-					if (yo.getY() - 1 < 0) {
-						posicioncalculada = TAMANO_MUNDO - 1;
-						yo.mover(mundo3D[yo.getX()][posicioncalculada][yo.getZ()], Jugador.Y, posicioncalculada);
-					} else {
-						posicioncalculada = yo.getY() - 1;
-						yo.mover(mundo3D[yo.getX()][posicioncalculada][yo.getZ()], Jugador.Y, posicioncalculada);
-					}
+					yo.crearherramientas();
 					break;
 				}
-				// Adelante comprobando si sobrepasa los limites del mapa
+
 				case 3: {
-					if (yo.getX() + 1 == Juego.TAMANO_MUNDO) {
-						posicioncalculada = 0;
-						yo.mover(mundo3D[posicioncalculada][yo.getY()][yo.getZ()], Jugador.X, posicioncalculada);
-					} else {
-						posicioncalculada = yo.getX() + 1;
-						yo.mover(mundo3D[posicioncalculada][yo.getY()][yo.getZ()], Jugador.X, posicioncalculada);
-					}
+					System.out.println(yo.toString());
 					break;
 				}
-				// Atras comprobando si sobrepasa los limites del mapa
+				// Opcion secreta que es 4.
 				case 4: {
-					if (yo.getX() - 1 < 0) {
-						posicioncalculada = TAMANO_MUNDO - 1;
-						yo.mover(mundo3D[posicioncalculada][yo.getY()][yo.getZ()], Jugador.X, posicioncalculada);
+					imprimirmundo(mundo3D);
+					break;
+				}
 
-					} else {
-						posicioncalculada = yo.getX() - 1;
-						yo.mover(mundo3D[posicioncalculada][yo.getY()][yo.getZ()], Jugador.X, posicioncalculada);
-					}
-					break;
-				}
-				// Arriba comprobando si sobrepasa los limites del mapa
-				case 5: {
-					if (yo.getZ() + 1 == Juego.TAMANO_MUNDO) {
-
-						posicioncalculada = 0;
-						yo.mover(mundo3D[yo.getX()][yo.getY()][posicioncalculada], Jugador.Z, posicioncalculada);
-					} else {
-						posicioncalculada = yo.getZ() + 1;
-						yo.mover(mundo3D[yo.getX()][yo.getY()][posicioncalculada], Jugador.Z, posicioncalculada);
-					}
-					break;
-				}
-				// Abajo comprobando si sobrepasa los limites del mapa
-				case 6: {
-					if (yo.getZ() - 1 < 0) {
-						posicioncalculada = TAMANO_MUNDO - 1;
-						yo.mover(mundo3D[yo.getX()][yo.getY()][posicioncalculada], Jugador.Z, posicioncalculada);
-					} else {
-						posicioncalculada = yo.getZ() - 1;
-						yo.mover(mundo3D[yo.getX()][yo.getY()][posicioncalculada], Jugador.Z, posicioncalculada);
-					}
-					break;
-				}
 				default:
-					throw new IllegalArgumentException("Direccion invalida: ");
+					throw new IllegalArgumentException("Opcion Invalida");
 				}
-
-				break;
-			}
-			case 2: {
-				yo.crearherramientas();
-				break;
+			} catch (Exception e) {
+				e.printStackTrace();
+				;
 			}
 
-			case 3: {
-				System.out.println(yo.toString());
-				break;
-			}
-			case 4: {
-
-				break;
-			}
-
-			default:
-				System.out.println("Opcion Invalida");
-			}
-
-		} while (seguir);
-
-		// Imprimir mundo
-//		for (int i= 0; i <TAMANO_MUNDO; i++) {
-//			for (int j= 0; j <TAMANO_MUNDO; j++) {
-//				for (int k= 0; k <TAMANO_MUNDO; k++) {
-//					System.out.println(mundo3D[i][j][k].toString());
-//				}
-//			}
-//		}
+		} while (!yo.victoria());
 
 		// El Jugador recorre el mapa entero recolectando materias primas
 //		for (int i= 0; i <TAMANO_MUNDO; i++) {
@@ -201,20 +198,16 @@ public class Juego {
 //			}
 //		}
 
-		// Mostramos el resultado de la recolección
-		System.out.println(yo);
-
 	}
 
-	/**
-	 * Metodo para generar bloques de tipo aleatorio
-	 * 
-	 * @param x posicion x en la que se encuentra el bloque
-	 * @param y posicion y en la que se encuentra el bloque
-	 * @param z posicion z en la que se encuentra el bloque
-	 * @return el bloque creado
-	 */
-
+	// Metodo para generar el mundo. Usa 3 coordenadas aleatorias para generar los
+	// bloques de aire. Si la posicion en el array esta vacia genera un bloque de
+	// aire.
+	// Recorrare este bucle por la mitad del mundo entero.
+	// Una vez generado todo los bloques de aire recorrera el array entero buscando
+	// las posiciones vacias en el array y generando un bloque aleatoria para esa
+	// posicion en el
+	// array.
 	public static void generarMundo(Bloque mundoarray[][][]) {
 		boolean invalido = true;
 		int x_random, y_random, z_random;
@@ -245,6 +238,14 @@ public class Juego {
 
 	}
 
+	/**
+	 * Metodo para generar bloques de tipo aleatorio
+	 * 
+	 * @param x posicion x en la que se encuentra el bloque
+	 * @param y posicion y en la que se encuentra el bloque
+	 * @param z posicion z en la que se encuentra el bloque
+	 * @return el bloque creado
+	 */
 	public static Bloque generaBloqueAleatorio(int x, int y, int z) {
 
 		Bloque bloque = null;
@@ -282,6 +283,17 @@ public class Juego {
 
 		}
 		return bloque;
+	}
+
+	// Recorre todo el string imprimiendo cada bloque
+	public static void imprimirmundo(Bloque mundoarray[][][]) {
+		for (int i = 0; i < TAMANO_MUNDO; i++) {
+			for (int j = 0; j < TAMANO_MUNDO; j++) {
+				for (int k = 0; k < TAMANO_MUNDO; k++) {
+					System.out.println(mundoarray[i][j][k].toString());
+				}
+			}
+		}
 	}
 
 }
