@@ -46,16 +46,26 @@ public class Juego {
 		generarMundo(mundo3D);
 
 		// Creamos el jugador para ello buscamos el primer bloque vacio disponible
-		for (int i = 0; i < TAMANO_MUNDO && seguir; i++) {
-			for (int j = 0; j < TAMANO_MUNDO && seguir; j++) {
-				for (int k = 2; k < TAMANO_MUNDO && seguir; k++) {
-					if (mundo3D[i][j][k] instanceof BloqueVacio) {
-						yo = new Jugador("Jorge", i, j, k);
-						// Imprimos las coordenadas
-						System.out.println("Coordenadas:");
-						System.out.println("X: " + i + " Y: " + j + " Z:" + k);
-						// Finalizamos el bucle
-						seguir = false;
+
+		// La explicacion de este bucle esta en un documento aparte por la complejidad de este
+		for (int z = 2; z < TAMANO_MUNDO && seguir; z++) {
+			for (int contadorglobal = 0; contadorglobal < TAMANO_MUNDO && seguir; contadorglobal++) {
+				for (int x = 0; x <= contadorglobal + 1 && x < TAMANO_MUNDO && seguir; x = x + contadorglobal + 1) {
+					for (int y = 0; y <= x && y < TAMANO_MUNDO && seguir; y = y + contadorglobal + 1) {
+						int y_real = y;
+						if (x == 0) {
+							y_real = y + contadorglobal + 1;
+						}
+						if (y_real < TAMANO_MUNDO) {
+							if (mundo3D[x][y][z] instanceof BloqueVacio) {
+								yo = new Jugador("Jorge", x, y, z);
+								// Imprimos las coordenadas
+								System.out.println("Coordenadas:");
+								System.out.println("X: " + x + " Y: " + y + " Z:" + z);
+								// Finalizamos el bucle
+								seguir = false;
+							}
+						}
 					}
 				}
 			}
