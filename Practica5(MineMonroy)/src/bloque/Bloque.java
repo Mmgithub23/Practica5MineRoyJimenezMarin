@@ -2,7 +2,7 @@ package bloque;
 
 import juego.Jugador;
 
-public abstract class Bloque {
+public abstract class Bloque implements Comparable<Bloque> {
 
 	// Tipos de bloques posibles.
 	public static final int PLANTA = 0;
@@ -41,7 +41,21 @@ public abstract class Bloque {
 		return "Coordenadas x=" + x + ", y=" + y + ", z=" + z + ", tipo= " + tipoaString();
 	}
 
-	//Switch para tener en un string el tipo de bloque
+	// Metodo que suma la x,y,z
+	private int getSuma() {
+		return x + y + z;
+	}
+
+	@Override
+	/*
+	 * Explicacion de ordenacion. Para encontrar el bloque con las coordenadas X,Y,Z
+	 * tenemos que sumar estas 3 coordenadas y ordenarlas por la suma de estas.
+	 */
+	public int compareTo(Bloque otro) {
+		return Integer.compare(this.getSuma(), otro.getSuma());
+	}
+
+	// Switch para tener en un string el tipo de bloque
 	private String tipoaString() {
 		String tipostring = "aire";
 		switch (tipo) {
@@ -69,14 +83,22 @@ public abstract class Bloque {
 			tipostring = "cobre";
 			break;
 		}
-			
+
 		}
 
 		return tipostring;
 	}
 
-	protected int getX() {
+	public int getX() {
 		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public int getZ() {
+		return z;
 	}
 
 }

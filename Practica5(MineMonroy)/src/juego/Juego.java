@@ -1,6 +1,7 @@
 package juego;
 
 import java.util.Random;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import javax.management.ValueExp;
@@ -36,40 +37,32 @@ public class Juego {
 	 */
 	public static void main(String[] args) {
 
-		// Creamos el mapa del juego
+		//Declaramos el mundo y su copia cuyo tamaño es todo los bloques del mundo
 		Bloque[][][] mundo3D = new Bloque[TAMANO_MUNDO][TAMANO_MUNDO][TAMANO_MUNDO];
+		Bloque[] copiamundo3d = new Bloque[MITAD_MUNDO*2];
+		//Variable de opcion para menu
 		int opcion;
 		boolean seguir = true;
 		Jugador yo = null;
-		// Lo rellenamos de bloques aleatorios de cualquir tipo, incluso tipo Bloque
-		// (vacio)
-		generarMundo(mundo3D);
+		// Generamos el mundo
+		generarMundo(mundo3D, copiamundo3d);
+		//Ordenamos la copia
+		Arrays.sort(copiamundo3d);
 
-		// Creamos el jugador para ello buscamos el primer bloque vacio disponible
-
-		// La explicacion de este bucle esta en un documento aparte por la complejidad de este
-		for (int z = 2; z < TAMANO_MUNDO && seguir; z++) {
-			for (int contadorglobal = 0; contadorglobal < TAMANO_MUNDO && seguir; contadorglobal++) {
-				for (int x = 0; x <= contadorglobal + 1 && x < TAMANO_MUNDO && seguir; x = x + contadorglobal + 1) {
-					for (int y = 0; y <= x && y < TAMANO_MUNDO && seguir; y = y + contadorglobal + 1) {
-						int y_real = y;
-						if (x == 0) {
-							y_real = y + contadorglobal + 1;
-						}
-						if (y_real < TAMANO_MUNDO) {
-							if (mundo3D[x][y][z] instanceof BloqueVacio) {
-								yo = new Jugador("Jorge", x, y, z);
-								// Imprimos las coordenadas
-								System.out.println("Coordenadas:");
-								System.out.println("X: " + x + " Y: " + y + " Z:" + z);
-								// Finalizamos el bucle
-								seguir = false;
-							}
-						}
-					}
-				}
+		//Recorremos todo el array de la copia buscando el primer bloque vacio
+		for(int i = 0; i < copiamundo3d.length && seguir;i++) {
+			//Si es un bloque vacio
+			if (copiamundo3d[i] instanceof BloqueVacio) {
+				//Atribuimos las coordenadas del bloque al jugador
+				yo = new Jugador("Jorge", copiamundo3d[i].getX(),copiamundo3d[i].getY(), copiamundo3d[i].getZ());
+				// Imprimos las coordenadas
+				System.out.println("Coordenadas:");
+				System.out.println("X: " + copiamundo3d[i].getX() + " Y: " + copiamundo3d[i].getY() + " Z:" + copiamundo3d[i].getZ());
+				// Finalizamos el bucle
+				seguir = false;
 			}
 		}
+
 
 		// Bucle para el juego
 		do {
@@ -218,7 +211,7 @@ public class Juego {
 	// las posiciones vacias en el array y generando un bloque aleatoria para esa
 	// posicion en el
 	// array.
-	public static void generarMundo(Bloque mundoarray[][][]) {
+	public static void generarMundo(Bloque mundoarray[][][], Bloque copiamundoarray[]) {
 		boolean invalido = true;
 		int x_random, y_random, z_random;
 		Random rd = new Random();
@@ -235,12 +228,16 @@ public class Juego {
 			invalido = true;
 		}
 
+		int contadorcopia = 0;
 		for (int i = 0; i < TAMANO_MUNDO; i++) {
 			for (int j = 0; j < TAMANO_MUNDO; j++) {
 				for (int k = 0; k < TAMANO_MUNDO; k++) {
 					if (mundoarray[i][j][k] == null) {
 						mundoarray[i][j][k] = generaBloqueAleatorio(i, j, k);
 					}
+					//Copiamos el bloque al array copia
+					copiamundoarray[contadorcopia] = mundoarray[i][j][k];
+					contadorcopia++;
 
 				}
 			}
