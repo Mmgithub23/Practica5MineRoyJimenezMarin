@@ -56,7 +56,7 @@ public abstract class Bloque implements Comparable<Bloque> {
 	}
 
 	// Switch para tener en un string el tipo de bloque
-	private String tipoaString() {
+	public String tipoaString() {
 		String tipostring = "aire";
 		switch (tipo) {
 		case PLANTA: {

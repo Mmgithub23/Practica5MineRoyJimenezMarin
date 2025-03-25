@@ -37,33 +37,32 @@ public class Juego {
 	 */
 	public static void main(String[] args) {
 
-		//Prueba
-		//Declaramos el mundo y su copia cuyo tamaño es todo los bloques del mundo
+		// Declaramos el mundo y su copia cuyo tamaño es todo los bloques del mundo
 		Bloque[][][] mundo3D = new Bloque[TAMANO_MUNDO][TAMANO_MUNDO][TAMANO_MUNDO];
-		Bloque[] copiamundo3d = new Bloque[MITAD_MUNDO*2];
-		//Variable de opcion para menu
+		Bloque[] copiamundo3d = new Bloque[MITAD_MUNDO * 2];
+		// Variable de opcion para menu
 		int opcion;
 		boolean seguir = true;
 		Jugador yo = null;
 		// Generamos el mundo
 		generarMundo(mundo3D, copiamundo3d);
-		//Ordenamos la copia
+		// Ordenamos la copia
 		Arrays.sort(copiamundo3d);
 
-		//Recorremos todo el array de la copia buscando el primer bloque vacio
-		for(int i = 0; i < copiamundo3d.length && seguir;i++) {
-			//Si es un bloque vacio
+		// Recorremos todo el array de la copia buscando el primer bloque vacio
+		for (int i = 0; i < copiamundo3d.length && seguir; i++) {
+			// Si es un bloque vacio
 			if (copiamundo3d[i] instanceof BloqueVacio) {
-				//Atribuimos las coordenadas del bloque al jugador
-				yo = new Jugador("Jorge", copiamundo3d[i].getX(),copiamundo3d[i].getY(), copiamundo3d[i].getZ());
+				// Atribuimos las coordenadas del bloque al jugador
+				yo = new Jugador("Jorge", copiamundo3d[i].getX(), copiamundo3d[i].getY(), copiamundo3d[i].getZ());
 				// Imprimos las coordenadas
 				System.out.println("Coordenadas:");
-				System.out.println("X: " + copiamundo3d[i].getX() + " Y: " + copiamundo3d[i].getY() + " Z:" + copiamundo3d[i].getZ());
+				System.out.println("X: " + copiamundo3d[i].getX() + " Y: " + copiamundo3d[i].getY() + " Z:"
+						+ copiamundo3d[i].getZ());
 				// Finalizamos el bucle
 				seguir = false;
 			}
 		}
-
 
 		// Bucle para el juego
 		do {
@@ -81,12 +80,19 @@ public class Juego {
 				case 1: {
 					int posicioncalculada;
 					System.out.println("Introduzca a que direccion");
-					System.out.println("Derecha [1]");
-					System.out.println("Izquierda [2]");
-					System.out.println("Adelante [3]");
-					System.out.println("Atras [4]");
-					System.out.println("Arriba [5]");
-					System.out.println("Abajo [6]");
+					System.out.println("              Arriba [5]        ");
+					System.out.println("                 ^              ");
+					System.out.println("                 |              ");
+					System.out.println("             Adelante [3]       ");
+					System.out.println("                 ^              ");
+					System.out.println("                 |              ");
+					System.out.println("Izquierda [2] <- X ->Derecha [1]");
+					System.out.println("                 |              ");
+					System.out.println("                 v              ");
+					System.out.println("              Atras [4]         ");
+					System.out.println("                 |              ");
+					System.out.println("                 v              ");
+					System.out.println("              Abajo [6]         ");
 					opcion = teclado.nextInt();
 
 					// Switch para saber cual seria la coordenada del jugador acorde al movimiento y
@@ -181,6 +187,10 @@ public class Juego {
 					imprimirmundo(mundo3D);
 					break;
 				}
+				case 5: {
+					imprimirbloquescercanos(mundo3D, yo.getX(), yo.getY(), yo.getZ());
+					break;
+				}
 
 				default:
 					throw new IllegalArgumentException("Opcion Invalida");
@@ -236,7 +246,7 @@ public class Juego {
 					if (mundoarray[i][j][k] == null) {
 						mundoarray[i][j][k] = generaBloqueAleatorio(i, j, k);
 					}
-					//Copiamos el bloque al array copia
+					// Copiamos el bloque al array copia
 					copiamundoarray[contadorcopia] = mundoarray[i][j][k];
 					contadorcopia++;
 
@@ -293,15 +303,96 @@ public class Juego {
 		return bloque;
 	}
 
-	// Recorre todo el string imprimiendo cada bloque
+	// Recorre todo el mundo imprimiendo cada bloque
 	public static void imprimirmundo(Bloque mundoarray[][][]) {
 		for (int i = 0; i < TAMANO_MUNDO; i++) {
 			for (int j = 0; j < TAMANO_MUNDO; j++) {
 				for (int k = 0; k < TAMANO_MUNDO; k++) {
-					System.out.println(mundoarray[i][j][k].toString());
+					System.out.print(mundoarray[i][j][k].toString());
 				}
 			}
 		}
+	}
+
+	// Metodo para mirar los bloques a tu alrededor
+	public static void imprimirbloquescercanos(Bloque mundoarray[][][], int x, int y, int z) {
+		// Bucle arriba primero comprobamos que no supere el limite superior
+		if (x + 1 < TAMANO_MUNDO) {
+			for (int i = x + 1, b = i; i < b + 3; i++) {
+				// Por cada posicion miramos que no supere los limites del mundo tanto superior
+				// e inferior
+				if (i < TAMANO_MUNDO && i > -1) {
+					String aux = mundoarray[i][y][z].tipoaString();
+					//Comprueba que no este en la primera iteracion
+					if (i >= b + 1) {
+						System.out.print(" ");
+					}
+					System.out.print(aux);
+					//Imprime espacios para que este todo centrado
+					for (int c = aux.length(); c < 13; c++) {
+						System.out.print(" ");
+					}
+
+					System.out.print("|");
+				} else {
+					System.out.print("LIMITE MUNDO |");
+				}
+			}
+		}
+
+		System.out.println();
+		if (y - 1 > -1) {
+			String aux = mundoarray[x][y - 1][z].tipoaString();
+			System.out.print(aux);
+			//Imprime espacios para que este todo centrado
+			for (int c = aux.length(); c < 13; c++) {
+				System.out.print(" ");
+			}
+			System.out.print("|");
+		} else {
+			System.out.print("LIMITE MUNDO |");
+		}
+
+		System.out.print(" TU UBICACION |");
+
+		if (y + 1 < TAMANO_MUNDO) {
+			String aux = mundoarray[x][y + 1][z].tipoaString();
+			System.out.print(" " + aux);
+			//Imprime espacios para que este todo centrado
+			for (int c = aux.length(); c < 13; c++) {
+				System.out.print(" ");
+			}
+			System.out.print("|");
+		} else {
+			System.out.print("LIMITE MUNDO |");
+		}
+
+		System.out.println();
+
+		if (x - 1 < TAMANO_MUNDO) {
+			for (int i = x - 1, b = i; i < b + 3; i++) {
+				// Por cada posicion miramos que no supere los limites del mundo tanto superior
+				// e inferior
+				if (i < TAMANO_MUNDO && i > -1) {
+					String aux = mundoarray[i][y][z].tipoaString();
+					//Comprueba que no este en la primera iteracion
+					if (i >= b + 1) {
+						System.out.print(" ");
+					}
+					System.out.print(aux);
+					//Imprime espacios para que este todo centrado
+					for (int c = aux.length(); c < 13; c++) {
+						System.out.print(" ");
+					}
+
+					System.out.print("|");
+				} else {
+					System.out.print("LIMITE MUNDO |");
+				}
+			}
+		}
+		System.out.println();
+
 	}
 
 }
