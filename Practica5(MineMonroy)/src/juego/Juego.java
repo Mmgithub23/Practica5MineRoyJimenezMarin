@@ -37,7 +37,6 @@ public class Juego {
 	 */
 	public static void main(String[] args) {
 
-		//Prueba
 		//Declaramos el mundo y su copia cuyo tamaño es todo los bloques del mundo
 		Bloque[][][] mundo3D = new Bloque[TAMANO_MUNDO][TAMANO_MUNDO][TAMANO_MUNDO];
 		Bloque[] copiamundo3d = new Bloque[MITAD_MUNDO*2];
