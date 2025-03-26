@@ -38,7 +38,7 @@ public abstract class Bloque implements Comparable<Bloque> {
 
 	@Override
 	public String toString() {
-		return "Coordenadas x=" + x + ", y=" + y + ", z=" + z + ", tipo= " + tipoaString();
+		return "Coordenadas x=" + getX() + ", y=" + getY() + ", z=" + getZ() + ", tipo= " + tipoaString();
 	}
 
 	// Metodo que suma la x,y,z

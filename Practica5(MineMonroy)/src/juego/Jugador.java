@@ -23,6 +23,9 @@ public class Jugador {
 	public static final int X = 0, Y = 1, Z = 2;
 	// Durabilidad de cada herramienta en orden: Hacha, Pala , Pico
 	private int durabilidadherramienta[] = { 5, 5, 5 };
+	private static final int HACHA = 0;
+	private static final int PALA = 1;
+	private static final int PICO = 2;
 
 	// Lista de materias primas del jugador
 	int[] materiasPrimas = new int[Bloque.NUM_MATERIAS];
@@ -112,18 +115,18 @@ public class Jugador {
 	public void mover(Bloque bloquedestruir, int switchdireccion, int nuevadireccion) {
 
 		System.out.println("Eliga la herramienta");
-		System.out.println("Hacha [1]");
-		System.out.println("Pala [2]");
-		System.out.println("Pico [3]");
+		System.out.println("Hacha ["+HACHA+"]");
+		System.out.println("Pala ["+PALA+"]");
+		System.out.println("Pico ["+PICO+"]");
 
 		switch (Juego.teclado.nextInt()) {
-		case 1: {
+		case HACHA: {
 			if (durabilidadherramienta[HERRAMIENTAS.HACHA.ordinal()] > 0) {
 				if (bloquedestruir.destruir(HERRAMIENTAS.HACHA, this)) {
 					cambiarcordenada(switchdireccion, nuevadireccion);
 					System.out.println("Se ha movido con exito ");
 					// Si el bloque no es un bloque vacio restara la durabilidad
-					if (!(bloquedestruir instanceof BloqueVacio)) {
+					if (!(bloquedestruir instanceof BloqueVacio && bloquedestruir.getX() != -1)) {
 						durabilidadherramienta[HERRAMIENTAS.HACHA.ordinal()]--;
 					}
 				} else {
@@ -136,13 +139,13 @@ public class Jugador {
 
 			break;
 		}
-		case 2: {
+		case PALA: {
 			if (durabilidadherramienta[HERRAMIENTAS.PALA.ordinal()] > 0) {
 				if (bloquedestruir.destruir(HERRAMIENTAS.PALA, this)) {
 					cambiarcordenada(switchdireccion, nuevadireccion);
 					System.out.println("Se ha movido con exito ");
 					// Si el bloque no es un bloque vacio restara la durabilidad
-					if (!(bloquedestruir instanceof BloqueVacio)) {
+					if (!(bloquedestruir instanceof BloqueVacio  && bloquedestruir.getX() != -1)) {
 						durabilidadherramienta[HERRAMIENTAS.PALA.ordinal()]--;
 					}
 				} else {
@@ -155,13 +158,13 @@ public class Jugador {
 
 			break;
 		}
-		case 3: {
+		case PICO: {
 			if (durabilidadherramienta[HERRAMIENTAS.PICO.ordinal()] > 0) {
 				if (bloquedestruir.destruir(HERRAMIENTAS.PICO, this)) {
 					cambiarcordenada(switchdireccion, nuevadireccion);
 					System.out.println("Se ha movido con exito ");
 					// Si el bloque no es un bloque vacio restara la durabilidad
-					if (!(bloquedestruir instanceof BloqueVacio)) {
+					if (!(bloquedestruir instanceof BloqueVacio  && bloquedestruir.getX() != -1)) {
 						durabilidadherramienta[HERRAMIENTAS.PICO.ordinal()]--;
 					}
 				} else {
