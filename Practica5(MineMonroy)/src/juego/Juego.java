@@ -26,6 +26,9 @@ public class Juego {
 	public static final int TAMANO_MUNDO = 10;
 	private static final int MITAD_MUNDO = (int) (Math.pow(TAMANO_MUNDO, 3) / 2);
 	public static final Scanner teclado = new Scanner(System.in);
+	
+	public static final String ANSI_RED = "\u001B[31m";
+	public static final String ANSI_RESET = "\u001B[0m";
 
 	/**
 	 * Metodo principal, ejecuta el juego
@@ -172,7 +175,9 @@ public class Juego {
 				}
 
 				case 3: {
+					System.out.println();
 					System.out.println(yo.toString());
+					System.out.println();
 					break;
 				}
 				// Opcion secreta que es 4.
@@ -181,7 +186,9 @@ public class Juego {
 					break;
 				}
 				case 5: {
+					System.out.println();
 					imprimirbloquescercanos(mundo3D, yo.getX(), yo.getY(), yo.getZ());
+					System.out.println();
 					break;
 				}
 
@@ -253,7 +260,7 @@ public class Juego {
 
 		int tipo;
 
-		tipo = rd.nextInt(Bloque.NUM_MATERIAS);
+		tipo = rd.nextInt(Bloque.NUM_MATERIAS+1);
 
 		switch (tipo) {
 		case Bloque.ALBERO: {
@@ -277,9 +284,11 @@ public class Juego {
 			break;
 		}
 		case Bloque.PLANTA: {
-			bloque = new BloquePlanta(x, y, z);
+			bloque = new BloquePlanta (x, y, z);
 			break;
 		}
+		default:
+			bloque = new BloqueVacio(x, y, z);
 
 		}
 		return bloque;
@@ -313,7 +322,7 @@ public class Juego {
 				String aux = mundoarray[x + 1][i][z].tipoaString();
 
 				if (mundoarray[x + 1][i][z].getX() == -1) {
-					System.err.print(aux);
+					System.out.print(ANSI_RED + aux + ANSI_RESET);
 				} else {
 					System.out.print(aux);
 				}
@@ -336,7 +345,7 @@ public class Juego {
 		if (y - 1 > -1) {
 			String aux = mundoarray[x][y - 1][z].tipoaString();
 			if (mundoarray[x][y - 1][z].getX() == -1) {
-				System.err.print(aux);
+				System.out.print(ANSI_RED + aux + ANSI_RESET);
 			} else {
 				System.out.print(aux);
 			}
@@ -354,7 +363,7 @@ public class Juego {
 		if (y + 1 < TAMANO_MUNDO) {
 			String aux = mundoarray[x][y + 1][z].tipoaString();
 			if (mundoarray[x][y + 1][z].getX() == -1) {
-				System.err.print(" " + aux);
+				System.out.print(ANSI_RED + aux + ANSI_RESET);
 			} else {
 				System.out.print(" " + aux);
 			}
@@ -382,7 +391,7 @@ public class Juego {
 				String aux = mundoarray[x - 1][i][z].tipoaString();
 
 				if (mundoarray[x - 1][i][z].getX() == -1) {
-					System.err.print(aux);
+					System.out.print(ANSI_RED + aux + ANSI_RESET);
 				} else {
 					System.out.print(aux);
 				}
